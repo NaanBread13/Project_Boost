@@ -11,7 +11,9 @@ public class Rocket : MonoBehaviour
     [SerializeField] AudioClip mainEngine;
     [SerializeField] AudioClip death;
     [SerializeField] AudioClip success;
-
+    [SerializeField] ParticleSystem mainEngineParticles;
+    [SerializeField] ParticleSystem deathParticles;
+    [SerializeField] ParticleSystem successParticles;
 
     enum State {Alive, Dying, Transcending };
     State state = State.Alive;
@@ -24,7 +26,7 @@ public class Rocket : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {// todo somewhere stop sound
+    {
         if (state == State.Alive)
         {
             RespondToThrustInput();
@@ -52,6 +54,7 @@ public class Rocket : MonoBehaviour
         state = State.Dying;
         audioSource.Stop();
         audioSource.PlayOneShot(death);
+        deathParticles.Play();
         Invoke("LoadFirstLevel", 1f); // parameterise this time
     }
 
@@ -60,7 +63,9 @@ public class Rocket : MonoBehaviour
         state = State.Transcending;
         audioSource.Stop();
         audioSource.PlayOneShot(success);
+        successParticles.Play();
         Invoke("LoadNextLevel", 1f); // parameterise this time
+
     }
 
     private void LoadFirstLevel()
@@ -95,15 +100,22 @@ public class Rocket : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space)) // can thrust while rotating
         {
-            rigidBody.AddRelativeForce(Vector3.up * mainThrust);
-            if (!audioSource.isPlaying)
-            { //so it doesn't layer audio
-                audioSource.PlayOneShot(mainEngine);
-            }
+            ApplyThrust();
         }
         else
         {
             audioSource.Stop();
+            mainEngineParticles.Stop();
         }
+    }
+
+    private void ApplyThrust()
+    {
+        rigidBody.AddRelativeForce(Vector3.up * mainThrust);
+        if (!audioSource.isPlaying)
+        { //so it doesn't layer audio
+            audioSource.PlayOneShot(mainEngine);
+        }
+        mainEngineParticles.Play();
     }
 }
