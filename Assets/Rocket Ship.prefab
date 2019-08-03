@@ -256,14 +256,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2d06bfad7a1f20498807c0684783d19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rcsThrust: 250
-  mainThrust: 1200
+  rcsThrust: 300
+  mainThrust: 1500
   mainEngine: {fileID: 8300000, guid: f2efec2bee31c6042b17afd5758e45f0, type: 3}
   death: {fileID: 8300000, guid: 13d9552102d7a9c47b1df0d4f52a100b, type: 3}
   success: {fileID: 8300000, guid: 4d39f9933e308bd488168fffe4d9ae31, type: 3}
   mainEngineParticles: {fileID: 4555204905351808622}
   deathParticles: {fileID: 4560095959032469025}
   successParticles: {fileID: 4560229773238288792}
+  levelLoadDelay: 1
 --- !u!1 &4433966695903725618
 GameObject:
   m_ObjectHideFlags: 0
