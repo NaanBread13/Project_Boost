@@ -55,7 +55,7 @@ public class Rocket : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision) {
-        if (state != State.Alive || !collisionsDisabled) { return; } // ignore collisions when dead
+        if (state != State.Alive || collisionsDisabled) { return; } // ignore collisions when dead
         switch (collision.gameObject.tag) // look at the object you're colliding with and its tag
         {
             case "Friendly":
@@ -95,7 +95,13 @@ public class Rocket : MonoBehaviour
 
     private void LoadNextLevel()
     {
-        SceneManager.LoadScene(1); //to do allow for more levels
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextSceneIndex = currentSceneIndex + 1;
+        if(SceneManager.sceneCountInBuildSettings == nextSceneIndex)
+        {
+            nextSceneIndex = 0; //loop back to level 1
+        }
+        SceneManager.LoadScene(nextSceneIndex); //to do allow for more levels
     }
 
     private void RespondToRotateInput()
